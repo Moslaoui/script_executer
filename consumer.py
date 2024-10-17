@@ -35,7 +35,7 @@ def callback(ch, method, properties, body):
     
     # Execute the script on the host OS using docker exec
     try:
-        subprocess.run(["docker", "exec", "-i", "rabbitmq-consumer-container", "sh", script_path], check=True)
+        subprocess.run([script_path], check=True)
         print(f" [x] Executed script on host OS: {script_path}")
     except subprocess.CalledProcessError as e:
         print(f" [x] Failed to execute script on host OS: {e}")
