@@ -1,6 +1,7 @@
 import pika
 import subprocess
 import os
+import tempfile
 
 # Define the RabbitMQ broker URL
 credentials = pika.PlainCredentials('user', 'password')
@@ -25,8 +26,13 @@ print(' [*] Waiting for messages. To exit press CTRL+C')
 def callback(ch, method, properties, body):
     print(f" [x] Received script content")
     
-    # Write the received script content to a file
-    script_path = "/app/received_script.sh"
+    # Create a directory for executed scripts if it doesn't exist
+    script_dir = "/home/azureuser/executed_scripts"
+    if not os.path.exists(script_dir):
+        os.makedirs(script_dir)
+    
+    # Write the received script content to a file in the created directory
+    script_path = os.path.join(script_dir, "received_script.sh")
     with open(script_path, 'wb') as script_file:
         script_file.write(body)
     
