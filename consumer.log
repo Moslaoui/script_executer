@@ -1,0 +1,20 @@
+2024-10-17 18:48:40,169 - INFO - Pika version 1.3.2 connecting to ('52.224.131.60', 5672)
+2024-10-17 18:48:40,171 - INFO - Socket connected: <socket.socket fd=7, family=2, type=1, proto=6, laddr=('10.0.1.4', 45676), raddr=('52.224.131.60', 5672)>
+2024-10-17 18:48:40,172 - INFO - Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7a7127943740>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7a7127943740> params=<ConnectionParameters host=rabbitmqservername.eastus.azurecontainer.io port=5672 virtual_host=/ ssl=False>>).
+2024-10-17 18:48:40,188 - INFO - AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7a7127943740> params=<ConnectionParameters host=rabbitmqservername.eastus.azurecontainer.io port=5672 virtual_host=/ ssl=False>>
+2024-10-17 18:48:40,189 - INFO - AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7a7127943740> params=<ConnectionParameters host=rabbitmqservername.eastus.azurecontainer.io port=5672 virtual_host=/ ssl=False>>
+2024-10-17 18:48:40,189 - INFO - Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x7a7127943740> params=<ConnectionParameters host=rabbitmqservername.eastus.azurecontainer.io port=5672 virtual_host=/ ssl=False>>
+2024-10-17 18:48:40,189 - INFO - Created channel=1
+2024-10-17 18:48:40,207 - INFO -  [*] Waiting for messages. To exit press CTRL+C
+2024-10-17 18:49:35,415 - INFO -  [x] Received script content
+2024-10-17 18:49:46,373 - INFO - Script Output:
+2024-10-17 18:49:46,374 - INFO - Login Succeeded
+latest: Pulling from pipefuncs_products
+Digest: sha256:68f307573312e7b08973999224ceb25dbdf17e5b0e6ecf6ea56973fef834c525
+Status: Image is up to date for piperg.azurecr.io/pipefuncs_products:latest
+piperg.azurecr.io/pipefuncs_products:latest
+Container is already running with ID: a007ac366109. Stopping it...
+a007ac366109
+a007ac366109
+6b5138dbe258bde70c3a30b19d83a4bc66fc2b61ed8230bc56c5a3e16788392e
+
