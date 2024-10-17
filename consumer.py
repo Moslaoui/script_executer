@@ -2,6 +2,17 @@ import pika
 import subprocess
 import os
 import tempfile
+import logging
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler("/home/azureuser/executed_scripts/consumer.log"),
+        logging.StreamHandler()
+    ]
+)
 
 # Define the RabbitMQ broker URL
 credentials = pika.PlainCredentials('user', 'password')
@@ -20,11 +31,11 @@ queue_name = result.method.queue
 
 channel.queue_bind(exchange='pubsub_exchange', queue=queue_name)
 
-print(' [*] Waiting for messages. To exit press CTRL+C')
+logging.info(' [*] Waiting for messages. To exit press CTRL+C')
 
 # Define a callback function to process incoming messages
 def callback(ch, method, properties, body):
-    print(f" [x] Received script content")
+    logging.info(f" [x] Received script content")
     
     # Create a directory for executed scripts if it doesn't exist
     script_dir = "/home/azureuser/executed_scripts"
@@ -42,11 +53,11 @@ def callback(ch, method, properties, body):
     # Execute the script on the host OS using docker exec
     try:
         result = subprocess.run([script_path], check=True, capture_output=True, text=True)
-        print("Script Output:")
-        print(result.stdout)
+        logging.info("Script Output:")
+        logging.info(result.stdout)
     except subprocess.CalledProcessError as e:
-        print(f"Error executing script: {e}")
-        print("Error Output:", e.stderr)
+        logging.error(f"Error executing script: {e}")
+        logging.error("Error Output:", e.stderr)
 
 # Start consuming messages
 channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
