@@ -17,5 +17,8 @@ ENV PYTHONUNBUFFERED=1
 # Set execute permissions for the working directory
 RUN chmod -R 755 /app
 
+# Install necessary libraries
+RUN apt-get update && apt-get install -y grep
+
 # Run the Python script when the container launches
 CMD ["python", "consumer.py"]

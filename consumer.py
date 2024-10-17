@@ -35,10 +35,12 @@ def callback(ch, method, properties, body):
     
     # Execute the script on the host OS using docker exec
     try:
-        subprocess.run([script_path], check=True)
-        print(f" [x] Executed script on host OS: {script_path}")
+        result = subprocess.run([script_path], check=True, capture_output=True, text=True)
+        print("Script Output:")
+        print(result.stdout)
     except subprocess.CalledProcessError as e:
-        print(f" [x] Failed to execute script on host OS: {e}")
+        print(f"Error executing script: {e}")
+        print("Error Output:", e.stderr)
 
 # Start consuming messages
 channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
