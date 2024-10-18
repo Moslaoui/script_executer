@@ -3,6 +3,7 @@ import subprocess
 import os
 import tempfile
 import logging
+from datetime import datetime
 
 # Configure logging
 logging.basicConfig(
@@ -25,8 +26,17 @@ channel = connection.channel()
 # Declare the same fanout exchange
 channel.exchange_declare(exchange='pubsub_exchange', exchange_type='fanout')
 
+# Get the hostname
+try:
+    hostname = subprocess.run(['hostname'], check=True, capture_output=True, text=True).stdout.strip()
+    logging.info(f"Hostname: {hostname}")
+except subprocess.CalledProcessError as e:
+    logging.error(f"Error getting hostname: {e}")
+    hostname = "default_queue"
+
 # Create a temporary queue and bind it to the exchange
-result = channel.queue_declare(queue='', exclusive=True)
+queue_name = hostname
+result = channel.queue_declare(queue=queue_name, exclusive=True)
 queue_name = result.method.queue
 
 channel.queue_bind(exchange='pubsub_exchange', queue=queue_name)
@@ -41,9 +51,14 @@ def callback(ch, method, properties, body):
     script_dir = "/home/azureuser/executed_scripts"
     if not os.path.exists(script_dir):
         os.makedirs(script_dir)
-    
+
+    # Get the current time
+    now = datetime.now().strftime("%Y%m%d_%H%M%S")
+    # Define script path with the current time
+    script_name = f"received_script_{now}.sh"
+
     # Write the received script content to a file in the created directory
-    script_path = os.path.join(script_dir, "received_script.sh")
+    script_path = os.path.join(script_dir, script_name)
     with open(script_path, 'wb') as script_file:
         script_file.write(body)
     
